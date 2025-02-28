@@ -1,0 +1,27 @@
+# Name of your workflow
+name: Unit Tests
+
+# Define the trigger event (s)
+on: [push] 
+
+# Jobs run in parallel by default, each runs steps in sequence
+jobs:
+
+    # Job to print something out
+    docker-unit-tests:
+        runs-on: ubuntu-latest
+        name: Build and run unit tests Docker image
+        
+        steps:
+        
+            # Use github.com/actions/checkout to check out this repo
+          - name: Check out this repo
+            uses: actions/checkout@v3
+            
+            # Install necessary packages
+          - name: Build Docker image
+            run: docker build -t unit-tests-image -f Dockerfile . 
+         
+            # Run image
+          - name: Run image
+            run: docker run --rm unit-tests-image
