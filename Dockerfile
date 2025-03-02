@@ -3,7 +3,7 @@ FROM ubuntu:latest
 
 # Install build tools
 RUN apt-get update && \
-	apt-get install -y wget build-essential autoconf automake libtool cmake
+	apt-get install -y wget build-essential autoconf automake libtool
 
 # Copy project into image
 RUN mkdir /project
@@ -18,8 +18,9 @@ RUN mkdir /project/tools/ && \
     tar xf cpputest-4.0.tar.gz && \
     mv cpputest-4.0/ tools/cpputest/ && \
     cd tools/cpputest/ && \
-    cmake . && \
+	autoreconf -i && \
+	./configure && \
     make
 	
 # Execute script
-ENTRYPOINT ["make", "test", "-C", "/project/tools/cpputest"]
+ENTRYPOINT ["make", "test", "-C", "/project/"]
